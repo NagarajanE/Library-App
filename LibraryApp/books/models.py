@@ -13,7 +13,7 @@ class Book(models.Model):
     copies_count = models.IntegerField("copies_count")
 
     def __str__(self):
-        return self.book_name + " -> " + str(self.book_id)
+        return self.book_name + " -> " + str(self.book_id)+' -> '+str(self.author_id.author_name)
 
     def isAvailable(self):
         return self.copies_count > 0
