@@ -18,9 +18,9 @@ class Book(models.Model):
         return self.copies_count > 0
 
 
-# class Author(models.Model):
-#     author_id=models.ForeignKey(Book,on_delete=models.CASCADE)
-#     author_name=models.CharField("name",max_length=150)
+class Author(models.Model):
+    author_id=models.ForeignKey(Book)
+    author_name=models.CharField("name",max_length=150)
 
 # class User(models.Model):
 #     user_id=models.IntegerField("id",auto_created=True,primary_key=True)
