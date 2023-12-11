@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 from .models import Book
 
+from authors.models import Author
+
 
 # books/
 @csrf_exempt
@@ -31,7 +33,7 @@ def create_book(request):
     data = request_json_helper(request)
 
     name = data["name"]
-    author_id = data["author_id"]
+    author_id = get_author_by_id(data["author_id"])
     initial_copies = data["initial_copies"]
 
     book = Book(book_name=name, author_id=author_id, copies_count=initial_copies)
@@ -63,7 +65,7 @@ def update_book_by_id(request, book_id):
     data = request_json_helper(request)
 
     name = data["name"]
-    author_id = data["author_id"]
+    author_id = get_author_by_id(data["author_id"])
     initial_copies = data["initial_copies"]
 
     fetchedBook = Book.objects.get(book_id=book_id)
@@ -91,3 +93,6 @@ def request_json_helper(request):
         return data
     except json.JSONDecodeError:
         return JsonResponse({"error": "Invalid JSON data"}, status=400)
+
+def get_author_by_id(author_id):
+    return Author.objects.get(author_id=author_id)
