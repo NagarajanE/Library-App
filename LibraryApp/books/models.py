@@ -9,7 +9,7 @@ class Book(models.Model):
     count = models.IntegerField("count", default=1)
 
     def __str__(self):
-        return self.name + " -> " + str(self.id)
+        return self.name + " -> " + str(self.id)+str(self.authors)
 
     def isAvailable(self):
         return self.count > 0

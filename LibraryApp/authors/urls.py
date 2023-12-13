@@ -3,10 +3,10 @@ from . import views
 
 urlpatterns = [
     # ex: authors/
-    path("", views.handle_author_request, name="create and view authors"),
+    path("", views.AuthorList.as_view(), name="create and view authors"),
     
     # ex: authors/{id}
     path(
-        "<uuid:author_id>/", views.handle_author_by_id, name="get,update,delete authors by id"
+        "<uuid:id>/", views.AuthorDetail.as_view(), name="get,update,delete authors by id"
     ),
 ]
