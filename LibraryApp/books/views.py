@@ -3,15 +3,18 @@ from rest_framework import generics
 from books.models import Book
 from books.serializers import BookSerializer
 
+
+# /books
 class BookList(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
 
+
+# /books/id
 class BookDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    lookup_field = 'id'
-
+    lookup_field = "id"
 
 
 # books/
@@ -19,8 +22,8 @@ class BookDetail(generics.RetrieveUpdateDestroyAPIView):
 #     """
 #     Lists all books and creates new book
 #     """
-#     def 
-    
+#     def
+
 # @csrf_exempt
 # def handle_book_request(request):
 #     if request.method == "GET":

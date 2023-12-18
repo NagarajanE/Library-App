@@ -9,16 +9,16 @@ class AuthorList(generics.ListCreateAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
 
+
 # /authors/id
 class AuthorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-    lookup_field = 'id'
-   
-   
-   
-# Does same as above 
-# 
+    lookup_field = "id"
+
+
+# Does same as above
+#
 # class AuthorList(APIView):
 #     """
 #     Lists all authors and creates new author
