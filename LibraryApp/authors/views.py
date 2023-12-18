@@ -2,12 +2,17 @@ from rest_framework import generics
 
 from authors.models import Author
 from authors.serializers import AuthorSerializer
-
+from rest_framework import permissions
+from authors.permissions import IsOwnerOrReadOnly
 
 # /authors
 class AuthorList(generics.ListCreateAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
 
 # /authors/id
@@ -15,6 +20,7 @@ class AuthorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     lookup_field = "id"
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
 
 
 # Does same as above
