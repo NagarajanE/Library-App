@@ -1,9 +1,10 @@
 from rest_framework import generics
-
+from rest_framework import serializers
 from authors.models import Author
 from authors.serializers import AuthorSerializer
 from rest_framework import permissions
-from authors.permissions import IsOwnerOrReadOnly
+from authors.permissions import IsCreatedByOrReadOnly
+
 
 # /authors
 class AuthorList(generics.ListCreateAPIView):
@@ -12,7 +13,11 @@ class AuthorList(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
+        # check whether user has an associated author already..
+        existing_user = Author.objects.filter(created_by=self.request.user).first()
+        if existing_user:
+            raise serializers.ValidationError("User already has an associated author.")
+        serializer.save(created_by=self.request.user)
 
 
 # /authors/id
@@ -20,7 +25,7 @@ class AuthorDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
     lookup_field = "id"
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsCreatedByOrReadOnly]
 
 
 # Does same as above
